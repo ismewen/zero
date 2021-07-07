@@ -7,7 +7,7 @@ import (
 )
 
 type HelloServicer interface {
-	Hello(request string, reply *string) error
+	Hello(string, *string) error
 }
 
 
