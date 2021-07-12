@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option go_package = ".:test";
+
+
+service Users {
+  rpc Ping(google.protobuf.Empty) returns (Pong);
+  rpc Test(User) returns (Pong);
+}
+
+message Pong {
+  message God {
+    string name = 1;
+    string age = 2;
+  }
+
+  repeated God god = 1;
+}
+
+message User {
+  string name = 1;
+  int32 age = 2;
+
+  message Address {
+      string Country = 1;
+      string Region = 2;
+  }
+
+  repeated Address addresses = 3;
+}
+
+enum UserStatus
+{
+  Active = 0;
+  Inactive = 1;
+  Closed = 2;
+}
+
+message UserWithStatus {
+  UserStatus status = 1;
+  map<string, string> hello = 2;
+}
