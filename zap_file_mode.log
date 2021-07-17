@@ -1,0 +1,2 @@
+{"level":"warn","ts":1626395820.821707,"caller":"zap/main.go:37","msg":"FileModel: Failed to fetch URL","URL":"http://www.baidu.com","attempt":3,"backoff":1}
+{"level":"warn","ts":1626397470.057214,"caller":"zap/main.go:38","msg":"FileModel: Failed to fetch URL","URL":"http://www.baidu.com","attempt":3,"backoff":1}

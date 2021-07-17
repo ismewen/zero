@@ -569,7 +569,6 @@ type UserServer interface {
 
 // UnimplementedUserServer can be embedded to have forward compatible implementations.
 type UnimplementedUserServer struct {
-
 }
 
 func (*UnimplementedUserServer) List(ctx context.Context, req *Paginator) (*UserListResponse, error) {
