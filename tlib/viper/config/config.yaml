@@ -1,0 +1,7 @@
+hello: world
+port: 8021
+name: user-web
+
+mysql:
+  host: 127.0.0.1
+  port: 3306
