@@ -7,10 +7,11 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"net/http"
+	"strconv"
 	"time"
 	"zero/mxshop-api/user-web/proto"
-	"zero/mxshop-api/user-web/srv"
 	"zero/mxshop-api/user-web/response"
+	"zero/mxshop-api/user-web/srv"
 )
 
 func HandleGrpcErrorToHttp(err error, c *gin.Context) {
@@ -39,12 +40,24 @@ func HandleGrpcErrorToHttp(err error, c *gin.Context) {
 	}
 }
 
+func QueryValueConvertToInt(value string, defaultValue int) int {
+	v, err := strconv.Atoi(value)
+	if err != nil {
+		return defaultValue
+	}
+	return v
+}
 func GetUserList(ctx *gin.Context) {
 	svc := srv.NewServiceContext()
+
+	ps := ctx.DefaultQuery("PageSize", "10")
+	pn := ctx.DefaultQuery("PageNum", "1")
+
 	paginator := proto.Paginator{
-		PageSize: 2,
-		PageNum:  1,
+		PageSize: uint32(QueryValueConvertToInt(ps, 10)),
+		PageNum:  uint32(QueryValueConvertToInt(pn, 1)),
 	}
+
 	userList, err := svc.UserRpc.List(context.Background(), &paginator)
 	if err != nil {
 		zap.S().Errorw("query failed", "error", err.Error())
@@ -54,15 +67,15 @@ func GetUserList(ctx *gin.Context) {
 	datas := make([]response.UserResponse, 0)
 	for _, value := range userList.Results {
 		data := response.UserResponse{
-			Id: value.Id,
+			Id:       value.Id,
 			NickName: value.NickName,
 			BirthDay: response.JsonTime(time.Unix(int64(value.BirthDay), 0)),
-			Gender: value.Gender,
+			Gender:   value.Gender,
 		}
 		datas = append(datas, data)
 	}
 	ctx.JSON(http.StatusOK, gin.H{
-		"RichMan": "IsMeWen",
+		"RichMan":  "IsMeWen",
 		"pageSize": paginator.PageSize,
 		"pageNum":  paginator.PageNum,
 		"results":  datas,
