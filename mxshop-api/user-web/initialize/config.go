@@ -3,7 +3,6 @@ package initialize
 import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
-	"go.uber.org/zap"
 	"time"
 	"zero/mxshop-api/user-web/global"
 )
@@ -39,7 +38,7 @@ func InitConfig() {
 		go func() {
 			for {
 				time.Sleep(time.Second * 2)
-				zap.S().Infof("%+v", global.ServerConfig)
+				//zap.S().Infof("%+v", global.ServerConfig)
 			}
 		}()
 

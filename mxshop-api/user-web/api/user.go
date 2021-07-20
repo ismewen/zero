@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+	"zero/mxshop-api/user-web/forms"
 	"zero/mxshop-api/user-web/proto"
 	"zero/mxshop-api/user-web/response"
 	"zero/mxshop-api/user-web/srv"
@@ -47,6 +48,7 @@ func QueryValueConvertToInt(value string, defaultValue int) int {
 	}
 	return v
 }
+
 func GetUserList(ctx *gin.Context) {
 	svc := srv.NewServiceContext()
 
@@ -79,5 +81,20 @@ func GetUserList(ctx *gin.Context) {
 		"pageSize": paginator.PageSize,
 		"pageNum":  paginator.PageNum,
 		"results":  datas,
+	})
+}
+
+func Login(ctx *gin.Context) {
+	form := forms.PasswordLoginForm{}
+	err := ctx.ShouldBindJSON(&form)
+	if err != nil {
+		// 校验错误
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"msg": err.Error(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"msg": "todo",
 	})
 }

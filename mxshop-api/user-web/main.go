@@ -7,12 +7,19 @@ import (
 
 func main() {
 	// init router
+	//if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+	//	_ = v.RegisterValidation("mxmobile", validators.ValidateMobile)
+	//}
+
 	router := initialize.Routers()
 	initialize.InitLogger()
 
 	// init config
-
 	initialize.InitConfig()
+
+	// init validators
+	initialize.InitValidator()
+
 
 	addr := ":8001"
 
