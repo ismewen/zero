@@ -10,6 +10,10 @@ func main() {
 	router := initialize.Routers()
 	initialize.InitLogger()
 
+	// init config
+
+	initialize.InitConfig()
+
 	addr := ":8001"
 
 	sugar := zap.S() // 一个安全的logger

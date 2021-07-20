@@ -1,8 +1,10 @@
 package srv
 
 import (
+	"fmt"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
+	"zero/mxshop-api/user-web/global"
 	"zero/mxshop-api/user-web/proto"
 )
 
@@ -11,7 +13,7 @@ type ServiceContext struct {
 }
 
 func NewServiceContext() *ServiceContext {
-	addr := "0.0.0.0:8181"
+	addr := fmt.Sprintf("%s:%s", global.ServerConfig.UserSrvConfig.Host, global.ServerConfig.UserSrvConfig.Port)
 	cc, err := grpc.Dial(addr, grpc.WithInsecure())
 	if err != nil {
 		zap.S().Errorw("UserRpc 连接失败", "error_info", err.Error())
