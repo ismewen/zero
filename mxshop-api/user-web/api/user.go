@@ -51,7 +51,6 @@ func QueryValueConvertToInt(value string, defaultValue int) int {
 
 func GetUserList(ctx *gin.Context) {
 	svc := srv.NewServiceContext()
-
 	ps := ctx.DefaultQuery("PageSize", "10")
 	pn := ctx.DefaultQuery("PageNum", "1")
 
@@ -94,7 +93,46 @@ func Login(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{
-		"msg": "todo",
+	// 校验成功
+	usrv := srv.NewServiceContext()
+	_, err = usrv.UserRpc.Retrieve(context.Background(), &proto.RetrieveRequest{
+		Mobile: form.Mobile,
+	})
+	if err != nil {
+		s, _ := status.FromError(err)
+		switch s.Code() {
+		case codes.NotFound:
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"msg": "用户不存在",
+			})
+		default:
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"msg": "登录失败",
+			})
+		}
+		return
+	}
+
+	pwdReq := &proto.PasswordCheckInfo{
+		Password:          form.Password,
+		EncryptedPassword: "cfcd208495d565ef66e7dff9f98764da",
+	}
+	checkPwdRes, err := usrv.UserRpc.CheckPassWord(context.Background(), pwdReq)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"msg": "密码校验失败",
+		})
+		return
+	}
+
+	if !checkPwdRes.IsCorrect {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"msg": "密码校验失败",
+		})
+		return
+	}
+	// 登录成功
+	ctx.JSON(http.StatusBadRequest, gin.H{
+		"msg": "登录成功",
 	})
 }

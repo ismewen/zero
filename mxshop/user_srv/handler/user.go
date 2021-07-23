@@ -46,9 +46,9 @@ func (s *UserServer) List(ctx context.Context, paginator *proto.Paginator) (*pro
 	return rsp, nil
 }
 
-func (s *UserServer) Retrieve(ctx context.Context, request *proto.IdRequest) (*proto.UserInfoResponse, error) {
+func (s *UserServer) Retrieve(ctx context.Context, request *proto.RetrieveRequest) (*proto.UserInfoResponse, error) {
 	var user *model.User
-	res := global.DB.Where("id = ?", request.Id).First(&user)
+	res := global.DB.Where("mobile = ?", request.Mobile).First(&user)
 	if res.Error != nil {
 		return nil, res.Error
 	}

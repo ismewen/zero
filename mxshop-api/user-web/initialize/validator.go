@@ -9,10 +9,6 @@ import (
 )
 
 func InitValidator(){
-	fmt.Println("register failed")
-	fmt.Println("register failed")
-	fmt.Println("register failed")
-	fmt.Println("register failed 111")
 	if v, ok := binding.Validator.Engine().(*validator.Validate);ok {
 		err := v.RegisterValidation("mxmobile", validators.ValidateMobile)
 		fmt.Println("register")

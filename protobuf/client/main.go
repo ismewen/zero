@@ -80,7 +80,7 @@ func main() {
 			if err != nil {
 				return
 			}
-			fmt.Println("收到服务器数据: %v", recvData.Data)
+			fmt.Printf("收到服务器数据: %v", recvData.Data)
 		}
 	}()
 

@@ -81,8 +81,8 @@ func TestUserServer_List(t *testing.T) {
 }
 
 func TestUserServer_Retrieve(t *testing.T) {
-	idRequest := &proto.IdRequest{
-		Id: 100,
+	idRequest := &proto.RetrieveRequest{
+		Mobile: "127271",
 	}
 	_, err := userClient.Retrieve(context.Background(), idRequest)
 	if err == nil {
@@ -96,8 +96,8 @@ func TestUserServer_Retrieve(t *testing.T) {
 		t.Error("query user failed")
 		return
 	}
-	idRequest = &proto.IdRequest{
-		Id: u.ID,
+	idRequest = &proto.RetrieveRequest{
+		Mobile: u.Mobile,
 	}
 	user, err := userClient.Retrieve(context.Background(), idRequest)
 	if err != nil {

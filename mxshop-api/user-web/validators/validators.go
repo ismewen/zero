@@ -5,12 +5,11 @@ import (
 	"regexp"
 )
 
-func ValidateMobile(f1 validator.FieldLevel) bool {
-	mobile := f1.Field().String()
-	pattern := ""
-	_, err := regexp.MatchString(pattern, mobile)
-	if err != nil {
+func ValidateMobile(fl validator.FieldLevel) bool {
+	mobile := fl.Field().String()
+	ok, _ := regexp.MatchString(`^1([38][0-9]|14[579]|5[^4]|16[6]|7[1-35-8]|9[189])\d{8}$`, mobile)
+	if !ok {
 		return false
 	}
-	return false
+	return true
 }

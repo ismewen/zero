@@ -1,28 +1,37 @@
 package main
 
 import (
-	"flag"
 	"fmt"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/health"
+	"google.golang.org/grpc/health/grpc_health_v1"
 	"net"
+	"zero/mxshop/user_srv/global"
 	"zero/mxshop/user_srv/handler"
+	"zero/mxshop/user_srv/initialize"
 	"zero/mxshop/user_srv/proto"
 )
 
 func main() {
 
-	// 启动 grpc
-	IP := flag.String("ip", "0.0.0.0", "ip地址")
-	PORT := flag.Int("port", 8181, "端口号")
-	flag.Parse()
-	fmt.Println(IP, PORT)
+	initialize.InitConfig()
+	initialize.InitLogger()
+
+	initialize.RegisterService()
+
+	fmt.Sprintf("hello world")
 	server := grpc.NewServer()
-	address := fmt.Sprintf("%s:%d", *IP, *PORT)
+
+	address := fmt.Sprintf("%s:%d", global.ServerConfig.Host, global.ServerConfig.Port)
 	fmt.Println(address)
 	proto.RegisterUserServer(server, &handler.UserServer{})
 	lis, err := net.Listen("tcp", address)
+	// 注册健康检查
+	grpc_health_v1.RegisterHealthServer(server, health.NewServer())
 	if err != nil {
 		panic("Failed to listen:" + err.Error())
 	}
+	zap.S().Info(address)
 	err = server.Serve(lis)
 }

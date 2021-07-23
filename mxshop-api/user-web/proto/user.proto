@@ -3,12 +3,15 @@ option go_package = ".;proto";
 
 service User {
   rpc List(Paginator) returns (UserListResponse);
-  rpc Retrieve(IdRequest) returns (UserInfoResponse);
+  rpc Retrieve(RetrieveRequest) returns (UserInfoResponse);
   rpc Create(CreateUserInfo) returns (UserInfoResponse);
   rpc Update(UpdateUserInfo) returns (UserInfoResponse);
   rpc CheckPassWord(PasswordCheckInfo) returns (CheckResponse);
 }
 
+message RetrieveRequest {
+  string mobile = 1;
+}
 message PasswordCheckInfo {
   string password = 1;
   string encryptedPassword = 2;
@@ -47,7 +50,7 @@ message UserInfoResponse {
   uint64 birthDay = 4;
   string gender = 5;
   int32 role = 6;
-//  repeated string updateFields = 7; // 从前端获取，表名哪些字段需要修改
+  //  repeated string updateFields = 7; // 从前端获取，表名哪些字段需要修改
 
 }
 message UserListResponse {

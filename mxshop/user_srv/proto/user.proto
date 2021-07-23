@@ -3,12 +3,15 @@ option go_package = ".;proto";
 
 service User {
   rpc List(Paginator) returns (UserListResponse);
-  rpc Retrieve(IdRequest) returns (UserInfoResponse);
+  rpc Retrieve(RetrieveRequest) returns (UserInfoResponse);
   rpc Create(CreateUserInfo) returns (UserInfoResponse);
   rpc Update(UpdateUserInfo) returns (UserInfoResponse);
   rpc CheckPassWord(PasswordCheckInfo) returns (CheckResponse);
 }
 
+message RetrieveRequest {
+  string mobile = 1;
+}
 message PasswordCheckInfo {
   string password = 1;
   string encryptedPassword = 2;

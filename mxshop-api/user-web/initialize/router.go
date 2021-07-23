@@ -5,8 +5,12 @@ import (
 	userRouter "zero/mxshop-api/user-web/router"
 )
 
-func Routers() *gin.Engine{
+func Routers() *gin.Engine {
 	router := gin.Default()
+
+	router.GET("health", func(ctx *gin.Context) {
+		ctx.String(200, "healthy ok")
+	})
 
 	// 初始化user router
 	apiGroup := router.Group("v1")
