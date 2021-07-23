@@ -3,6 +3,7 @@ package initialize
 import (
 	"fmt"
 	"github.com/hashicorp/consul/api"
+	"zero/mxshop-api/user-web/utils"
 	"zero/mxshop/user_srv/global"
 )
 
@@ -19,6 +20,13 @@ func RegisterService() {
 		panic("服务注册失败")
 	}
 
+	port, err := utils.GetFreePort(serverConfig.Host)
+	if err != nil {
+		panic("获取port失败")
+	}
+
+	serverConfig.Port = port
+
 	address := fmt.Sprintf("%s:%d", serverConfig.Host, serverConfig.Port)
 
 	check := &api.AgentServiceCheck{
@@ -29,7 +37,7 @@ func RegisterService() {
 	}
 	registration := api.AgentServiceRegistration{
 		Address: serverConfig.Host,
-		Port:	serverConfig.Port,
+		Port:    serverConfig.Port,
 		Name:    serverConfig.Name,
 		Check:   check,
 		ID:      serverConfig.Name,
