@@ -8,8 +8,10 @@ require (
 	github.com/gin-gonic/gin v1.7.2
 	github.com/go-playground/validator/v10 v10.4.1
 	github.com/golang/protobuf v1.5.2
-	github.com/hashicorp/consul/api v1.1.0
+	github.com/google/uuid v1.1.2
+	github.com/hashicorp/consul/api v1.3.0
 	github.com/jinzhu/gorm v1.9.16
+	github.com/mbobakov/grpc-consul-resolver v1.4.4
 	github.com/spf13/viper v1.8.1
 	github.com/tal-tech/go-zero v1.1.8
 	go.uber.org/automaxprocs v1.4.0 // indirect

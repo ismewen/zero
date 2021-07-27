@@ -3,8 +3,10 @@ package handler
 import (
 	"context"
 	"fmt"
+	"go.uber.org/zap"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"sync/atomic"
 	"time"
 
 	"zero/mxshop/user_srv/global"
@@ -29,7 +31,11 @@ type UserServer struct {
 	*proto.UnimplementedUserServer
 }
 
+var listCallTimes int32 = 0
+
 func (s *UserServer) List(ctx context.Context, paginator *proto.Paginator) (*proto.UserListResponse, error) {
+	atomic.AddInt32(&listCallTimes, 1)
+	zap.S().Infof("list接口调用次数: %d", listCallTimes)
 	var users []model.User
 	res := global.DB.Find(&users)
 	if res.Error != nil {
@@ -94,7 +100,7 @@ func (s *UserServer) Update(ctx context.Context, info *proto.UpdateUserInfo) (*p
 func (s *UserServer) CheckPassWord(ctx context.Context, info *proto.PasswordCheckInfo) (*proto.CheckResponse, error) {
 	user := model.User{}
 	mpwd, _ := user.GetMd5Str(info.Password)
-	fmt.Printf("pwd: %s, enpwd: %s, userpwd: %s",info.Password, mpwd, info.EncryptedPassword)
+	fmt.Printf("pwd: %s, enpwd: %s, userpwd: %s", info.Password, mpwd, info.EncryptedPassword)
 	response := &proto.CheckResponse{IsCorrect: mpwd == info.EncryptedPassword}
 	return response, nil
 }

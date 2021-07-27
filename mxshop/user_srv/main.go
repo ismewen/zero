@@ -20,7 +20,6 @@ func main() {
 
 	initialize.RegisterService()
 
-	fmt.Sprintf("hello world")
 	server := grpc.NewServer()
 
 	address := fmt.Sprintf("%s:%d", global.ServerConfig.Host, global.ServerConfig.Port)
@@ -33,5 +32,10 @@ func main() {
 		panic("Failed to listen:" + err.Error())
 	}
 	zap.S().Info(address)
-	err = server.Serve(lis)
+	go func() {
+		err = server.Serve(lis)
+	}()
+
+	// 监听退出信号
+	initialize.ListenSignal()
 }

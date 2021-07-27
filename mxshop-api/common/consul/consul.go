@@ -67,3 +67,4 @@ func GetService(serviceId string) (*api.AgentService, error) {
 	agentService, _, err := client.Agent().Service(serviceId, nil)
 	return agentService, err
 }
+

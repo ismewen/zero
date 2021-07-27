@@ -57,7 +57,7 @@ func InitConfig() {
 		// 读取local的配置
 		configPath := "mxshop-api/user-web/config/configlocal.yaml"
 		v.SetConfigFile(configPath)
-		err := v.ReadInConfig()
+		err := v.MergeInConfig()
 		if err != nil {
 			panic("init config failed" + err.Error())
 		}
@@ -68,7 +68,7 @@ func InitConfig() {
 		// 读取develop的配置
 		configPath := "mxshop-api/user-web/config/config-develop.yaml"
 		v.SetConfigFile(configPath)
-		err := v.ReadInConfig()
+		err := v.MergeInConfig()
 		if err != nil {
 			panic("init config failed" + err.Error())
 		}
@@ -79,7 +79,7 @@ func InitConfig() {
 		// 读取正式环境中的配置
 		configPath := "mxshop-api/user-web/config/config-production.yaml"
 		v.SetConfigFile(configPath)
-		err := v.ReadInConfig()
+		err := v.MergeInConfig()
 		if err != nil {
 			panic("init config failed" + err.Error())
 		}
