@@ -8,7 +8,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"zero/mxshop-api/user-web/utils"
+	"zero/mxshop/common/utils"
 	"zero/mxshop/user_srv/global"
 )
 

@@ -1,0 +1,59 @@
+syntax = "proto3";
+option go_package = ".;proto";
+
+service User {
+  rpc List(Paginator) returns (UserListResponse);
+  rpc Retrieve(RetrieveRequest) returns (UserInfoResponse);
+  rpc Create(CreateUserInfo) returns (UserInfoResponse);
+  rpc Update(UpdateUserInfo) returns (UserInfoResponse);
+  rpc CheckPassWord(PasswordCheckInfo) returns (CheckResponse);
+}
+
+message RetrieveRequest {
+  string mobile = 1;
+}
+message PasswordCheckInfo {
+  string password = 1;
+  string encryptedPassword = 2;
+}
+
+message CheckResponse {
+  bool isCorrect = 1;
+}
+
+message CreateUserInfo {
+  string nickName = 1;
+  string password = 2;
+  string mobile = 3;
+}
+
+message UpdateUserInfo {
+  int32 id = 1;
+  string nickName = 2;
+  string gender = 3;
+  uint64 birthday = 4;
+}
+
+message IdRequest {
+  int32 id = 1;
+}
+
+message Paginator{
+  uint32 pageNum = 1;
+  uint32  pageSize = 2;
+}
+
+message UserInfoResponse {
+  int32 id = 1;
+  string mobile = 2;
+  string nickName = 3;
+  uint64 birthDay = 4;
+  string gender = 5;
+  int32 role = 6;
+//  repeated string updateFields = 7; // 从前端获取，表名哪些字段需要修改
+
+}
+message UserListResponse {
+  int32 total = 1;
+  repeated UserInfoResponse results = 2;
+}

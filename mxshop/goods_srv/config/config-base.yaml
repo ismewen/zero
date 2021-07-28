@@ -1,0 +1,12 @@
+name: goods-rpc
+
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  database: mx_goods_srv
+  username: root
+  password: ismewen
+
+consul:
+  host: 127.0.0.1
+  port: 8500
