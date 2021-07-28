@@ -46,17 +46,17 @@ type GoodsCategoryBrand struct {
 	BaseModel
 	CategoryID int32 `gorm:"type:int;index:index_category_brand,unique"`
 	Category   Category
-	BrandID    int32 `gorm:"type:int;index:index_category_brand,unique"`
+	BrandsID    int32 `gorm:"type:int;index:index_category_brand,unique"`
 	Brands     Brands
 }
 
 func (GoodsCategoryBrand) TableName() string {
-	return "goods_category_brand"
+	return "goodscategorybrand"
 }
 
 type Banner struct {
 	BaseModel
-	Image string `grom:"type:varchar(200);not null"`
+	Image string `gorm:"type:varchar(200);not null"`
 	Url   string `gorm:"type:varchar(200);not null"`
 	Index int32  `gorm:"type:int;default:1;not null"`
 }
