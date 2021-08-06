@@ -8,17 +8,18 @@ import (
 	"google.golang.org/grpc/health/grpc_health_v1"
 	"net"
 	"zero/mxshop/goods_srv/global"
-	"zero/mxshop/user_srv/handler"
+	//"zero/mxshop/user_srv/handler"
 
-	//"zero/mxshop/goods_srv/handler"
+	"zero/mxshop/goods_srv/handler"
 	"zero/mxshop/goods_srv/initialize"
-	"zero/mxshop/user_srv/proto"
+	"zero/mxshop/goods_srv/proto"
 )
 
 func main() {
 
 	initialize.InitConfig()
 	initialize.InitLogger()
+	initialize.InitDB()
 
 	initialize.RegisterService()
 
@@ -26,7 +27,7 @@ func main() {
 
 	address := fmt.Sprintf("%s:%d", global.ServerConfig.Host, global.ServerConfig.Port)
 	fmt.Println(address)
-	proto.RegisterUserServer(server, &handler.UserServer{})
+	proto.RegisterGoodsServer(server, &handler.GoodsServer{})
 	lis, err := net.Listen("tcp", address)
 	// 注册健康检查
 	grpc_health_v1.RegisterHealthServer(server, health.NewServer())

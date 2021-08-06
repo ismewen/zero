@@ -95,7 +95,7 @@ func RegisterService() {
 		Name:    serverConfig.Name,
 		Check:   check,
 		ID:      serviceID,
-		Tags:    []string{"user_srv"},
+		Tags:    []string{"goods_srv"},
 	}
 
 	err = client.Agent().ServiceRegister(&registration)
