@@ -3,10 +3,9 @@ package srv
 import (
 	"fmt"
 
+	_ "github.com/mbobakov/grpc-consul-resolver" // It's important
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
-	_ "github.com/mbobakov/grpc-consul-resolver" // It's important
-
 
 	"zero/mxshop-api/common/consul"
 	"zero/mxshop-api/user-web/global"
@@ -43,8 +42,9 @@ func NewServiceContextBk() *ServiceContext {
 func NewServiceContext() *ServiceContext {
 	consulInfo := global.ServerConfig.ConsulConfig
 	userServiceName := global.ServerConfig.UserSrvConfig.Name
+	address := fmt.Sprintf("consul://%s:%s/%s?wait=14s", consulInfo.Host, consulInfo.Port, userServiceName)
 	conn, err := grpc.Dial(
-		fmt.Sprintf("consul://%s:%s/%s?wait=14s", consulInfo.Host, consulInfo.Port, userServiceName),
+		address,
 		grpc.WithInsecure(),
 		grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`),
 	)
